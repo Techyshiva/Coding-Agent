@@ -19,10 +19,8 @@ client = OpenAI(
 import subprocess
 
 def run_comand(cmd: str):
-    # Execute the command and capture the terminal output
     result = subprocess.getoutput(cmd)
     
-    # If the command worked but produced no text (like 'mkdir'), give the AI a thumbs up
     if result.strip() == "":
         return f"Command '{cmd}' executed successfully with no output."
     
@@ -126,10 +124,9 @@ message_history = [
 ]
 
 while True:
-    print("\n" + "="*50 + "\n") # Just a visual separator
+    print("\n" + "="*50 + "\n")
     user_query = input("👉🏻 (Enter your Prompt OR type 'exit' to quit): ")
     
-    # Allow the user to stop the script gracefully
     if user_query.lower() in ['exit', 'quit']:
         print("Stopping agent...")
         break
@@ -148,12 +145,11 @@ while True:
         
         parsed_result = response.choices[0].message.parsed
         
-        # Safeguard: If the LLM returns a list, extract the first dictionary
         if isinstance(parsed_result, list):
             if len(parsed_result) > 0:
                 parsed_result = parsed_result[0]
             else:
-                continue # Skip empty lists gracefully
+                continue
 
         if parsed_result.step == "START":
             print("🔥", parsed_result.content)
